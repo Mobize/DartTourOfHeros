@@ -1,33 +1,24 @@
 import 'package:angular/angular.dart';
-import 'src/hero.dart';
-import 'src/mock_heroes.dart';
-import 'src/hero_component.dart';
-import 'src/hero_service.dart'; // importation du service
+import 'package:angular_router/angular_router.dart';
+
+import 'src/routes.dart';
+import 'src/hero_service.dart';
+
 
 @Component(
   selector: 'my-app',
-  templateUrl: 'app_component.html' ,
-  directives: [coreDirectives, HeroComponent],
-  styleUrls: ['app_component.css'],
-  providers: [ClassProvider(HeroService)],// declaration du service
+  template: '''
+    <h1>{{title}}</h1>
+      <nav>
+        <a [routerLink]="RoutePaths.heroes.toUrl()"
+          [routerLinkActive]="'active'">Heroes</a>
+      </nav>
+    <router-outlet [routes]="Routes.all"></router-outlet>
+  ''',
+  directives: [routerDirectives],
+  providers: [ClassProvider(HeroService)],
+  exports: [RoutePaths, Routes],
 )
-class AppComponent implements OnInit{
-  final title = 'Tour of heroes';
-  List<Hero> heroes;
-  Hero selected;
-
-  void onSelect(Hero hero) => selected = hero;
-
-  final HeroService _heroService; // variable privée du service
-  AppComponent(this._heroService); // injection de depandance dans le constructeur
-
-  Future<void> _getHeroes() async {
-  heroes = await _heroService.getAll();
+class AppComponent {
+  final title = 'Tour of Heroes';
 }
-
-  void ngOnInit() => _getHeroes();
-}
-
-
- 
- 
