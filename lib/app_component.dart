@@ -21,9 +21,9 @@ class AppComponent implements OnInit{
   final HeroService _heroService; // variable privée du service
   AppComponent(this._heroService); // injection de depandance dans le constructeur
 
-  void _getHeroes() {
-    heroes = _heroService.getAll();
-  }
+  Future<void> _getHeroes() async {
+  heroes = await _heroService.getAll();
+}
 
   void ngOnInit() => _getHeroes();
 }
